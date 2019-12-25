@@ -1,5 +1,9 @@
 import pickle
 
+
+"""
+Somente um pequeno teste de alteracao usando o Git
+"""
 class Conta:    
     def __init__(self, usuario):
         self.usuario = usuario        
