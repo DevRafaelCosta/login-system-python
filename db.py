@@ -36,7 +36,7 @@ class Conta:
         except FileNotFoundError:
             print('\nErro. Arquivo nao existe. Criando um padrao')
             print('usuario: admin, senha: admin')
-            conta = {'admin': {'senha': 'admin', 'nome': 'Admin', 'msg': 'Somente uma primeira mensagem caso nao exista um arquivo'}}
+            conta = {'admin': {'senha': 'admin', 'nome': '-', 'msg': '-'}}
             db = open('contas.pck', 'wb')
             pickle.dump(conta, db)
             db.close()
