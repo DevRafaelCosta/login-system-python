@@ -5,7 +5,7 @@ from db import *
 def verificar():
     tentativas = 0
             
-    while tentativas <= 5:
+    while tentativas <= 2:
         usuario = input('Nome de usuario: ')
         usuario = usuario.lower()
         
@@ -18,7 +18,7 @@ def verificar():
             verifica = conta.verificaSenha(senha)
             
             if verifica:
-                tentativas = 5
+                tentativas = 2
                 return True, usuario
             else:
                 print('Senha incorreta\n')
@@ -31,19 +31,18 @@ def verificar():
     # Caso saia do loop
     return False, usuario
 
+
 def criar():
     while True:
         usuario = input('Nome de usuario: ')
-        usuario = usuario.lower()
-        print('Verificando se o usuario ja existe')
+        usuario = usuario.lower()        
         
         # Tenta fazer login com esse usuario
         # Caso nao exista pode criar uma conta
         conta = Conta(usuario)
         existe = conta.logar()
         
-        if not existe:
-            print('Usuario nao existe, prosseguindo\n')
+        if not existe:            
             break
         
         print('Esse usuario ja existe\n')
@@ -74,6 +73,7 @@ def main():
         print('Criar - ("c")')
         print('Logar - ("l")')
         print('Deletar - ("d")')
+        print('Ver usuarios - ("v")')
         print('Sair - ("s")')
         resp = input('-> ').lower()
         print()
@@ -87,10 +87,20 @@ def main():
             if verificado:    
                 conta.mostramsg()
 
-        elif resp.startswith('d'):
-            print('Em construcao')
-            #verificado = verificar()        
-
+        elif resp.startswith('d'):            
+            verificado, usuario = verificar()
+            conta = Conta(usuario)
+            
+            if verificado:
+                resp = input('\nTem certeza que quer deletar? [s/n]: ')
+                if resp == 's':
+                    conta.deleta()
+                    print('Conta deletada com sucesso!\n')
+                   
+        elif resp.startswith('v'):            
+            conta = Conta(None)
+            conta.ver_usuarios()
+        
         elif resp.startswith('s'):
             break
         

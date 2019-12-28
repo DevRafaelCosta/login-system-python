@@ -34,7 +34,7 @@ class Conta:
 
         # Caso nao exista um arquivo ele cria um
         except FileNotFoundError:
-            print('\nErro. Arquivo nao existe. Criando um padrao')
+            print('Erro. Arquivo nao existe. Criando um padrao')
             print('usuario: admin, senha: admin')
             conta = {'admin': {'senha': 'admin', 'nome': '-', 'msg': '-'}}
             db = open('contas.pck', 'wb')
@@ -67,7 +67,27 @@ class Conta:
         pass
 
 
-    def deleta(self):
-        pass
-    
+    def deleta(self):        
+        db = open('contas.pck', 'rb')
+        conta = pickle.load(db)
+        db.close()
+        
+        del conta[self.usuario]
+        
+        db = open('contas.pck', 'wb')
+        pickle.dump(conta, db)
+        db.close()
+
+
+    def ver_usuarios(self):        
+        try:
+            db = open('contas.pck', 'rb')
+            conta = pickle.load(db)
+            db.close()
+
+            for usuario in conta:
+                print(usuario)
+
+        except FileNotFoundError:
+            Conta.logar(None)
     
