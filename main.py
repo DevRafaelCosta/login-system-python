@@ -170,3 +170,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# Alteracoes somente para didatica de como usar o github
