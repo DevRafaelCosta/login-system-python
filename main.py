@@ -9,7 +9,7 @@ def verificar():
         usuario = input('Nome de usuario: ')
         usuario = usuario.lower()
         
-        # Tentar fazer login com esse usuario
+        # Tenta fazer login com esse usuario
         conta = Conta(usuario)
         existe = conta.logar()
         
@@ -28,7 +28,7 @@ def verificar():
             
         tentativas += 1
 
-    # Caso saio do loop
+    # Caso saia do loop
     return False, usuario
 
 def criar():
@@ -37,7 +37,7 @@ def criar():
         usuario = usuario.lower()
         print('Verificando se o usuario ja existe')
         
-        # Tentar fazer login com esse usuario
+        # Tenta fazer login com esse usuario
         # Caso nao exista pode criar uma conta
         conta = Conta(usuario)
         existe = conta.logar()
@@ -47,7 +47,8 @@ def criar():
             break
         
         print('Esse usuario ja existe\n')
-        # Cria senha e confere
+        
+    # Cria senha e confere
     while True:
         senha = input('Digite uma senha: ')
         senha_check = input('Comfirme sua senha: ')
