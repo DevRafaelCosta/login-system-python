@@ -60,11 +60,33 @@ class Conta:
         # E imprime as informacoes do usuario
         print(f'\nMensagem de {self.usuario}')
         print(f'Meu nome eh: {conta[self.usuario]["nome"]}')
-        print(f'Minha mensagem: {conta[self.usuario]["msg"]}\n')
+        print(f'Minha mensagem: {conta[self.usuario]["msg"]}')
        
         
-    def atualiza(self):
-        pass
+    def atualiza(self, opc):
+        db = open('contas.pck', 'rb')
+        conta = pickle.load(db)
+        db.close()        
+
+        if opc == 's':
+            senha = input('Digite a nova senha: ')
+            conta[self.usuario]['senha'] = senha
+            print('Senha alterada.\n')            
+            
+        elif opc == 'n':
+            nome = input('Digite o novo nome: ')
+            conta[self.usuario]['nome'] = nome
+            print('Nome alterado.\n')            
+
+        else:
+            msg = input('Digite a nova mensagem: ')
+            conta[self.usuario]['msg'] = msg
+            print('Mensagem alterada.\n')           
+        
+
+        db = open('contas.pck', 'wb')
+        pickle.dump(conta, db)
+        db.close()
 
 
     def deleta(self):        

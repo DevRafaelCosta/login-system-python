@@ -32,7 +32,7 @@ def verificar():
     return False, usuario
 
 
-def criar():
+def criar():    
     while True:
         usuario = input('Nome de usuario: ')
         usuario = usuario.lower()        
@@ -43,14 +43,14 @@ def criar():
         existe = conta.logar()
         
         if not existe:            
-            break
+            break            
         
         print('Esse usuario ja existe\n')
         
     # Cria senha e confere
     while True:
         senha = input('Digite uma senha: ')
-        senha_check = input('Comfirme sua senha: ')
+        senha_check = input('Confirme sua senha: ')
             
         if senha == senha_check:
             break
@@ -65,6 +65,35 @@ def criar():
     conta.mostramsg()                
     
 
+def atualizar(usuario):
+    cont = 0
+    
+    while cont <= 2:
+        conta = Conta(usuario)
+        print(f'Usuario {usuario}')
+        resp = input('O que voce quer atualizar? Senha("s"), Nome("n"), Mensagem("m"): ')        
+
+        if resp.startswith('s'):
+            resp = 's'
+            conta.atualiza(resp)
+            break
+
+        elif resp.startswith('n'):
+            resp = 'n'
+            conta.atualiza(resp)
+            break
+
+        elif resp.startswith('m'):
+            resp = 'm'
+            conta.atualiza(resp)
+            break
+
+        else:
+            print('Nao entendi. Tente de novo')
+
+        cont += 1    
+
+
 def main():    
     while True:
         print('-'*20)
@@ -73,48 +102,69 @@ def main():
         print('Criar - ("c")')
         print('Logar - ("l")')
         print('Deletar - ("d")')
+        print('Atualizar - ("a")')
         print('Ver usuarios - ("v")')
         print('Sair - ("s")')
         resp = input('-> ').lower()
         print()
         
+        
         if resp.startswith('c'):
-            criar()                    
+            criar()
+            print()
+            
         
         elif resp.startswith('l'):            
             verificado, usuario = verificar()
-            conta = Conta(usuario)            
-            if verificado:    
-                conta.mostramsg()
-
-        elif resp.startswith('d'):            
-            verificado, usuario = verificar()
-            conta = Conta(usuario)
             
             if verificado:
+                conta = Conta(usuario)
+                conta.mostramsg()
+            print()
+                
+
+        elif resp.startswith('d'):            
+            verificado, usuario = verificar()            
+            
+            if verificado:
+                conta = Conta(usuario)
                 resp = input('\nTem certeza que quer deletar? [s/n]: ')
                 if resp == 's':
                     conta.deleta()
                     print('Conta deletada com sucesso!\n')
-                   
+                print()
+                
+
+        elif resp.startswith('a'):            
+            verificado, usuario = verificar()
+
+            if verificado:
+                atualizar(usuario)
+            print()
+                
+            
         elif resp.startswith('v'):            
             conta = Conta(None)
             conta.ver_usuarios()
+            print()
+            
         
         elif resp.startswith('s'):
             break
+        
         
         else:
             print('Opcao Invalida')
 
             # Opcao de continuar
             resp = input('Quer sair? (s/n): ').lower()
+            print()
 
             if resp.startswith('s'):
                 break            
 
 
-    print('\nPrograma finalizado')
+    print('Programa finalizado')
 
 
 if __name__ == '__main__':
