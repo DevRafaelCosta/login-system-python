@@ -1,0 +1,73 @@
+import pickle
+
+class Conta:    
+    def __init__(self, usuario):
+        self.usuario = usuario        
+        
+       
+    def criar(self, senha, nome, msg):
+
+        # Abre o banco de dados
+        db = open('contas.pck', 'rb')
+        conta = pickle.load(db)
+        db.close()
+
+        # Adiciona no dicionario o novo usuario, junto com suas dependencias
+        conta[self.usuario] = {'senha': senha, 'nome': nome, 'msg': msg}
+
+        # Escreve o dicionario de volta junto com o novo usuario
+        db = open('contas.pck', 'wb')
+        pickle.dump(conta, db)
+        db.close()
+        
+    
+    # Verifica se o usuario existe
+    def logar(self):
+        
+        try:
+            db = open('contas.pck', 'rb')
+            conta = pickle.load(db)
+            db.close()
+                    
+            if self.usuario in conta:
+                return True
+
+        # Caso nao exista um arquivo ele cria um
+        except FileNotFoundError:
+            print('\nErro. Arquivo nao existe. Criando um padrao')
+            print('usuario: admin, senha: admin')
+            conta = {'admin': {'senha': 'admin', 'nome': 'Admin', 'msg': 'Somente uma primeira mensagem caso nao exista um arquivo'}}
+            db = open('contas.pck', 'wb')
+            pickle.dump(conta, db)
+            db.close()
+               
+
+    def verificaSenha(self, senha):
+        db = open('contas.pck', 'rb')
+        conta = pickle.load(db)
+        db.close()
+        
+        if conta[self.usuario]['senha'] == senha:
+            return True
+
+    
+    def mostramsg(self):
+        # Le o DB
+        db = open('contas.pck', 'rb')
+        conta = pickle.load(db)
+        db.close()
+
+        # E imprime as informacoes do usuario
+        print(f'\nMensagem de {self.usuario}')
+        print(f'Meu nome eh: {conta[self.usuario]["nome"]}')
+        print(f'Minha mensagem: {conta[self.usuario]["msg"]}\n')
+       
+        
+    def atualiza(self):
+        pass
+
+
+    def deleta(self):
+        pass
+    
+    
