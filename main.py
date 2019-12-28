@@ -87,8 +87,8 @@ def main():
                 conta.mostramsg()
 
         elif resp.startswith('d'):
-            #verificado = verificar()
-            pass        
+            print('Em construcao')
+            #verificado = verificar()        
 
         elif resp.startswith('s'):
             break
