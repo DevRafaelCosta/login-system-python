@@ -1,172 +1,67 @@
 from db import *
 
 
-# Como eh usado varias vezes o login, decidi criar esse metodo para diminuir um pouco o codigo
-def verificar():
-    tentativas = 0
-            
-    while tentativas <= 2:
-        usuario = input('Nome de usuario: ')
-        usuario = usuario.lower()
-        
-        # Tenta fazer login com esse usuario
-        conta = Conta(usuario)
-        existe = conta.logar()
-        
-        if existe:
-            senha = input('Digite a senha: ')
-            verifica = conta.verificaSenha(senha)
-            
-            if verifica:
-                tentativas = 2
-                return True, usuario
-            else:
-                print('Senha incorreta\n')
-                
-        else:
-            print('Esse nome de usuario nao existe\n')
-            
-        tentativas += 1
-
-    # Caso saia do loop
-    return False, usuario
-
-
-def criar():    
-    while True:
-        usuario = input('Nome de usuario: ')
-        usuario = usuario.lower()        
-        
-        # Tenta fazer login com esse usuario
-        # Caso nao exista pode criar uma conta
-        conta = Conta(usuario)
-        existe = conta.logar()
-        
-        if not existe:            
-            break            
-        
-        print('Esse usuario ja existe\n')
-        
-    # Cria senha e confere
-    while True:
-        senha = input('Digite uma senha: ')
-        senha_check = input('Confirme sua senha: ')
-            
-        if senha == senha_check:
-            break
-        else:
-            print('\nSenha nao confere. Digite novamente.')
-
-    nome = input('Digite seu nome: ')
-    msg = input('Digite sua mensagem: ')
-
-    conta.criar(senha, nome, msg)
-    print('Conta criada com sucesso!\n')
-    conta.mostramsg()                
-    
-
-def atualizar(usuario):
-    cont = 0
-    
-    while cont <= 2:
-        conta = Conta(usuario)
-        print(f'Usuario {usuario}')
-        resp = input('O que voce quer atualizar? Senha("s"), Nome("n"), Mensagem("m"): ')        
-
-        if resp.startswith('s'):
-            resp = 's'
-            conta.atualiza(resp)
-            break
-
-        elif resp.startswith('n'):
-            resp = 'n'
-            conta.atualiza(resp)
-            break
-
-        elif resp.startswith('m'):
-            resp = 'm'
-            conta.atualiza(resp)
-            break
-
-        else:
-            print('Nao entendi. Tente de novo')
-
-        cont += 1    
-
-
-def main():    
+def main():
     while True:
         print('-'*20)
-        print('  SISTEMA DE LOGIN  ')
+        print('  LOGIN SYSTEM  ')
         print('-'*20)
-        print('Criar - ("c")')
-        print('Logar - ("l")')
-        print('Deletar - ("d")')
-        print('Atualizar - ("a")')
-        print('Ver usuarios - ("v")')
-        print('Sair - ("s")')
-        resp = input('-> ').lower()
+        print('Login - ("l")')
+        print('Create - ("c")')
+        print('Delete - ("d")')
+        print('Update - ("u")')
+        print('Show Users - ("s")')
+        print('Exit - ("e")')
+        answer = input('-> ').lower()
         print()
-        
-        
-        if resp.startswith('c'):
-            criar()
-            print()
-            
-        
-        elif resp.startswith('l'):            
-            verificado, usuario = verificar()
-            
-            if verificado:
-                conta = Conta(usuario)
-                conta.mostramsg()
-            print()
-                
 
-        elif resp.startswith('d'):            
-            verificado, usuario = verificar()            
-            
-            if verificado:
-                conta = Conta(usuario)
-                resp = input('\nTem certeza que quer deletar? [s/n]: ')
-                if resp == 's':
-                    conta.deleta()
-                    print('Conta deletada com sucesso!\n')
-                print()
-                
 
-        elif resp.startswith('a'):            
-            verificado, usuario = verificar()
+        if answer.startswith('l'):
+            user = input('Username: ')
+            account = Account(user, None)
+            user_check = account.user_check()
 
-            if verificado:
-                atualizar(usuario)
-            print()
-                
-            
-        elif resp.startswith('v'):            
-            conta = Conta(None)
-            conta.ver_usuarios()
-            print()
-            
-        
-        elif resp.startswith('s'):
+            if user_check:
+                password = input('Password: ')
+                account = Account(user, password)
+                pass_check = account.pw_check()
+                if pass_check:
+                    account.login()
+                else:
+                    print('Wrong Password\n')
+            else:
+                print('This username don\'t exist\n')
+
+
+        elif answer.startswith('c'):
+            pass
+
+
+        elif answer.startswith('d'):
+            pass
+
+
+        elif answer.startswith('u'):
+            pass
+
+
+        elif answer.startswith('s'):
+            pass
+
+
+        elif answer.startswith('e'):
             break
-        
-        
-        else:
-            print('Opcao Invalida')
 
-            # Opcao de continuar
-            resp = input('Quer sair? (s/n): ').lower()
+
+        else:
+            print('Invalid Input')
+
+            answer = input('Close the system? (y/n): ').lower()
             print()
 
-            if resp.startswith('s'):
-                break            
-
-
-    print('Programa finalizado')
+            if answer.startswith('y'):
+                break
 
 
 if __name__ == '__main__':
-    main()    
-
+    main()
