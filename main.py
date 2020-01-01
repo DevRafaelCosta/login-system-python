@@ -1,6 +1,10 @@
 from db import *
 
 
+def verify(user, pw):
+    pass
+
+
 def main():
     while True:
         print('-'*20)
@@ -17,6 +21,7 @@ def main():
 
 
         if answer.startswith('l'):
+            print('\nLogin')
             user = input('Username: ')
             account = Account(user, None)
             user_check = account.user_check()
@@ -34,7 +39,23 @@ def main():
 
 
         elif answer.startswith('c'):
-            pass
+            print('\nCreate')
+            user = input('username: ')
+            account = Account(user, None)
+            user_check = account.user_check()
+
+            if not user_check:
+                while True:
+                    password = input('Create a Password: ')
+                    check = input('Confirm your Password: ')
+                    if password == check:
+                        account = Account(user, password)
+                        account.create()
+                        break
+                    else:
+                        print('The Password does not match\n')
+            else:
+                print('The user already exist\n')
 
 
         elif answer.startswith('d'):
