@@ -6,6 +6,7 @@ class Account:
 		self.user = user.lower()
 		self.pw = pw
 
+
 	def create(self):
 		name = input('Create a name: ')
 		msg = input('Create a message: ')
@@ -16,17 +17,18 @@ class Account:
 		s.close()
 		print('Account successfully created\n')
 
+
 	def login(self):
 		s = shelve.open('db/database.db')
 		name = s[self.user]['name']
 		msg = s[self.user]['msg']
 		s.close()
 
-		print(f'\nName: {name}')
+		print(f'Name: {name}')
 		print(f'Message: {msg}\n')
 
 
-	def user_check(self):		
+	def user_check(self):
 		s = shelve.open('db/database.db')
 		exist = self.user in s
 		s.close()
@@ -40,3 +42,10 @@ class Account:
 		s.close()
 		if self.pw == password:
 			return True
+
+
+	def delete(self):
+		s = shelve.open('db/database.db')
+		del s[self.user]
+		s.close()
+		print('Account successfully deleted\n')
