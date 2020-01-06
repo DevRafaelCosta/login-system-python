@@ -4,10 +4,12 @@ from db import *
 def main():
     while True:
         answer = show_options()
+        print('-'*50)
 
         if answer.startswith('c'):
-            print('\nCreate')
+            print('Create')
             user = input('username: ')
+            user = user.lower()
             account = Account(user, None)
             user_check = account.user_check()
 
@@ -20,39 +22,53 @@ def main():
                         account.create()
                         break
                     else:
-                        print('The Password does not match\n')
+                        print('The Password does not match')
             else:
-                print('The user already exist\n')
+                print('The user already exist')
 
         elif answer.startswith('l'):
             user = input('Username: ')
             password = input('Password: ')
+            user = user.lower()
             login(user, password)
 
         elif answer.startswith('d'):
             user = input('Username: ')
             password = input('Password: ')
+            user = user.lower()
 
             check = login(user, password)
             if check:
-                print(f'Delete user: {user}?')
+                print(f'\nDelete user: {user}?')
                 answer = input('Are you sure? (y/n): ')
                 if answer.startswith('y'):
                     account = Account(user, None)
                     account.delete()
-            print()
 
         elif answer.startswith('u'):
-            pass
-            """
-            check = login()
-            print('What do you want to update?')
-            print('Password, Name or Message')
-            answer = ('-> ').lower()
-            """
+            user = input('Username: ')
+            password = input('Password: ')
+            user = user.lower()
+
+            check = login(user, password)
+            if check:
+                account = Account(user, None)
+                print('What do you want to update?')
+                print('Password, Name or Message')
+                answer = input('-> ').lower()
+
+                if answer.startswith('p'):
+                    account.update(1)
+                elif answer.startswith('n'):
+                    account.update(2)
+                elif answer.startswith('m'):
+                    account.update(3)
+                else:
+                    print('Invalid Input')
 
         elif answer.startswith('s'):
-            pass
+            account = Account(None, None)
+            account.show()
 
         elif answer.startswith('e'):
             break
@@ -60,9 +76,11 @@ def main():
         else:
             print('Invalid Input')
             answer = input('Close the system? (y/n): ').lower()
-            print()
             if answer.startswith('y'):
+                print('\n\n\n\n\n')
                 break
+        print('-'*50)
+        print('\n\n')
 
 
 def login(user, password):
@@ -76,9 +94,9 @@ def login(user, password):
             account.login()
             return True
         else:
-            print('Wrong Password\n')
+            print('Wrong Password')
     else:
-        print('This username don\'t exist\n')
+        print('This username don\'t exist')
 
 
 def show_options():
