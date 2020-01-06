@@ -1,2 +1,4 @@
 __pycache__
-db/
+database.db.bak
+database.db.dat
+database.db.dir
